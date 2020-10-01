@@ -611,6 +611,16 @@ public class TestSodiumLibrary {
         logger.info(hashHex);
     }
 
+    @Test
+    public void testBlake2bHash() throws SodiumLibraryException {
+        byte[] input = new byte[8];
+        Arrays.fill(input, (byte)0);
+        byte[] hash = SodiumLibrary.cryptoBlake2bHash(input, null);
+        String hashHex = SodiumUtils.binary2Hex(hash);
+        logger.info("Blake2B hash " + hash.length + " bytes");
+        logger.info(hashHex);
+    }
+
     @After
     public void doneTesting() {
         logger.info("Done Testing Crypto");

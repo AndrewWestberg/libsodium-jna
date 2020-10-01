@@ -352,6 +352,9 @@ public class SodiumLibrary {
 		      long mlen);
 
         int crypto_vrf_proof_to_hash(byte[] hash, byte[] proof);
+
+        // blake2b hash implementation
+        int crypto_generichash_blake2b(byte[] out, int outlen, byte[] in, long inLen, byte[] key, int keylen);
     }
 
     ////////////////////////////////////////////////////////////////////////
@@ -1269,6 +1272,15 @@ public class SodiumLibrary {
         int rc = sodium().crypto_vrf_proof_to_hash(hash, proof);
         if (rc != 0) {
             throw new SodiumLibraryException("libsodium crypto_vrf_proof_to_hash() failed, returned " + rc + ", expected 0");
+        }
+        return hash;
+    }
+
+    public static byte[] cryptoBlake2bHash(byte[] in, byte[] key) throws SodiumLibraryException {
+        byte[] hash = new byte[32];
+        int rc = sodium().crypto_generichash_blake2b(hash, hash.length, in, in.length, null, 0);
+        if (rc != 0) {
+            throw new SodiumLibraryException("libsodium crypto_generichash_blake2b() failed, returned " + rc + ", expected 0");
         }
         return hash;
     }
